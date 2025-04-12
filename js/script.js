@@ -1,60 +1,140 @@
 // User Registration
 document.getElementById('registration-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    alert(`Welcome, ${username}! Your email is ${email}.`);
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (username && email) {
+        alert(`Welcome, ${username}! Registration successful.`);
+    } else {
+        alert('Please fill in all required fields.');
+    }
 });
 
-// Weather Dashboard
+// Weather Dashboard with Dynamic Image
 document.getElementById('get-weather').addEventListener('click', () => {
-    const apiKey = 'YOUR_API_KEY'; // Replace with OpenWeatherMap API key
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKey}&units=metric`;
+    const apiKey = '6c29d841f3580adee02b34b3e8c93011'; // Your OpenWeatherMap API key
+    const city = 'Saint Louis';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    const weatherResult = document.getElementById('weather-result');
+    const weatherImage = document.createElement('img'); // Image element for weather
+    weatherResult.textContent = 'Loading weather data...';
+
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const weather = `Weather in ${data.name}: ${data.weather[0].description}, ${data.main.temp}°C`;
-            document.getElementById('weather-result').textContent = weather;
+        .then(response => {
+            if (!response.ok) throw new Error('Weather data not found');
+            return response.json();
         })
-        .catch(error => console.error('Error fetching weather data:', error));
+        .then(data => {
+            const weatherDescription = data.weather[0].description;
+            const temperature = data.main.temp;
+            weatherResult.textContent = `Weather in ${data.name}: ${weatherDescription}, ${temperature}°C`;
+
+            // Select appropriate weather image
+            let imageSrc = '';
+            if (weatherDescription.includes('cloud')) {
+                imageSrc = 'images/cloudy.jpg'; // Path to cloudy image
+            } else if (weatherDescription.includes('rain')) {
+                imageSrc = 'images/rainy.jpg'; // Path to rainy image
+            } else if (weatherDescription.includes('clear')) {
+                imageSrc = 'images/sunny.jpg'; // Path to sunny image
+            } else {
+                imageSrc = 'images/default-weather.jpg'; // Default fallback image
+            }
+
+            weatherImage.src = imageSrc;
+            weatherImage.alt = weatherDescription;
+            weatherImage.className = 'weather-image';
+            weatherResult.appendChild(weatherImage);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            weatherResult.textContent = 'Unable to fetch weather data.';
+        });
 });
 
 // Currency Converter
 document.getElementById('convert-currency').addEventListener('click', () => {
-    const amount = document.getElementById('amount').value;
+    const amount = document.getElementById('amount').value.trim();
     const from = document.getElementById('currency-from').value;
     const to = document.getElementById('currency-to').value;
-    const apiKey = 'YOUR_API_KEY'; // Replace with CurrencyLayer API key
-    const url = `https://api.apilayer.com/exchangerates_data/convert?to=${to}&from=${from}&amount=${amount}&apikey=${apiKey}`;
+    const apiKey = 'd570a4f5152f33fb00a842d3526efe08'; // Your API Key
+    const url = `http://apilayer.net/api/live?access_key=${apiKey}&currencies=${to}&source=${from}&format=1`;
+
+    const resultDiv = document.getElementById('conversion-result');
+    resultDiv.textContent = 'Converting...';
+
+    // Validate inputs
+    if (!amount || isNaN(amount) || amount <= 0) {
+        resultDiv.textContent = 'Enter a valid amount greater than 0.';
+        return;
+    }
+
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('conversion-result').textContent = `Converted Amount: ${data.result} ${to}`;
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch conversion data.');
+            return response.json();
         })
-        .catch(error => console.error('Error fetching conversion data:', error));
+        .then(data => {
+            // Ensure the target currency exists in the response
+            const exchangeRate = data.quotes[`${from}${to}`];
+            if (exchangeRate) {
+                const convertedAmount = (amount * exchangeRate).toFixed(2);
+                resultDiv.textContent = `Converted Amount: ${convertedAmount} ${to}`;
+            } else {
+                resultDiv.textContent = 'Conversion data unavailable.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            resultDiv.textContent = 'Conversion failed. Please try again.';
+        });
 });
+
 
 // Random Joke Generator
 document.getElementById('get-joke').addEventListener('click', () => {
     const url = 'https://v2.jokeapi.dev/joke/Any';
+    const jokeDisplay = document.getElementById('joke-display');
+    jokeDisplay.textContent = 'Fetching joke...';
+
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Joke data not found');
+            return response.json();
+        })
         .then(data => {
             const joke = data.type === 'single' ? data.joke : `${data.setup} - ${data.delivery}`;
-            document.getElementById('joke-display').textContent = joke;
+            jokeDisplay.textContent = joke;
         })
-        .catch(error => console.error('Error fetching joke:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            jokeDisplay.textContent = 'Unable to fetch joke.';
+        });
 });
 
-// Task Tracker
+// Task Tracker with Delete Functionality
 document.getElementById('add-task').addEventListener('click', () => {
-    const task = document.getElementById('new-task').value;
-    if (task.trim()) {
-        const list = document.getElementById('task-list');
+    const taskInput = document.getElementById('new-task');
+    const task = taskInput.value.trim();
+    const taskList = document.getElementById('task-list');
+
+    if (task) {
         const listItem = document.createElement('li');
         listItem.textContent = task;
-        list.appendChild(listItem);
-        document.getElementById('new-task').value = '';
+
+        // Add delete button for tasks
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-task';
+        deleteButton.addEventListener('click', () => {
+            taskList.removeChild(listItem);
+        });
+
+        listItem.appendChild(deleteButton);
+        taskList.appendChild(listItem);
+        taskInput.value = '';
     } else {
         alert('Enter a valid task.');
     }

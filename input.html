@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Creative Dashboard</title>
-        <meta name="author" content="Smith Eutrope Zephirin">
-        <meta name="description" content="Course: WDD330 - Web Frontend Development II">
-        <link rel="stylesheet" href="styles.css">
-        <script src="js/script.js"></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Dashboard</title>
+    <meta name="author" content="Smith Eutrope Zephirin">
+    <meta name="description" content="Course: WDD330 - Web Frontend Development II">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/script.js" defer></script>
+</head>
 <body>
     <header>
-        <h1>Creative Dashboard</h1>
+        <div class="branding">
+            <h1>Creative Dashboard</h1>
+            <p>Your gateway to creativity and productivity</p>
+        </div>
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="#user-registration">Register</a></li>
-                <li><a href="#weather-dashboard">Weather Dashboard</a></li>
-                <li><a href="#currency-converter">Currency Converter</a></li>
-                <li><a href="#joke-generator">Random Joke Generator</a></li>
-                <li><a href="#task-tracker">Task Tracker</a></li>
+                <li><a href="#weather-dashboard">Weather</a></li>
+                <li><a href="#currency-converter">Currency</a></li>
+                <li><a href="#joke-generator">Jokes</a></li>
+                <li><a href="#task-tracker">Tasks</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <!-- User Registration -->
-        <section id="user-registration">
+        <!-- User Registration Section -->
+        <section id="user-registration" class="dashboard-section">
             <h2>User Registration</h2>
-            <p>Register to use all features:</p>
+            <p>Register to unlock all features:</p>
             <form id="registration-form">
                 <input type="text" id="username" placeholder="Username" required>
                 <input type="email" id="email" placeholder="Email" required>
@@ -35,46 +38,56 @@
             </form>
         </section>
 
-        <!-- Weather Dashboard -->
-        <section id="weather-dashboard">
+        <!-- Weather Dashboard Section -->
+        <section id="weather-dashboard" class="dashboard-section">
             <h2>Weather Dashboard</h2>
+            <img src="/images/weather-placeholder.jpg" alt="Weather graphic" class="section-image">
             <button id="get-weather">Get Weather</button>
             <div id="weather-result"></div>
         </section>
-
-        <!-- Currency Converter -->
-        <section id="currency-converter">
+        
+        <!-- Currency Converter Section -->
+        <section id="currency-converter" class="dashboard-section">
             <h2>Currency Converter</h2>
-            <input type="number" id="amount" placeholder="Amount">
+            <img src="/images/currency-placeholder.jpg" alt="Currency graphic" class="section-image">
+            <input type="number" id="amount" placeholder="Enter amount">
             <select id="currency-from">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="CAD">CAD</option>
+                <option value="PLN">PLN</option>
             </select>
             <select id="currency-to">
                 <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="CAD">CAD</option>
+                <option value="PLN">PLN</option>
                 <option value="USD">USD</option>
             </select>
             <button id="convert-currency">Convert</button>
             <div id="conversion-result"></div>
         </section>
 
-        <!-- Joke Generator -->
-        <section id="joke-generator">
+        <!-- Joke Generator Section -->
+        <section id="joke-generator" class="dashboard-section">
             <h2>Random Joke Generator</h2>
+            <img src="/images/joke-placeholder.jpg" alt="Joke graphic" class="section-image">
             <button id="get-joke">Get Joke</button>
             <div id="joke-display"></div>
         </section>
 
-        <!-- Task Tracker -->
-        <section id="task-tracker">
+        <!-- Task Tracker Section -->
+        <section id="task-tracker" class="dashboard-section">
             <h2>Task Tracker</h2>
-            <input type="text" id="new-task" placeholder="New Task">
+            <img src="/images/task-placeholder.jpg" alt="Task graphic" class="section-image">
+            <input type="text" id="new-task" placeholder="Enter a new task">
             <button id="add-task">Add Task</button>
             <ul id="task-list"></ul>
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 Creative Dashboard</p>
+        <p>&copy; 2025 Creative Dashboard | Designed by Smith Eutrope Zephirin</p>
     </footer>
 </body>
 </html>
