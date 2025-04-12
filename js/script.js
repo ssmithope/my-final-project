@@ -13,7 +13,7 @@ document.getElementById('registration-form').addEventListener('submit', (event) 
 
 // Weather Dashboard with Dynamic Image
 document.getElementById('get-weather').addEventListener('click', () => {
-    const apiKey = '6c29d841f3580adee02b34b3e8c93011'; // Your OpenWeatherMap API key
+    const apiKey = '6c29d841f3580adee02b34b3e8c93011'; 
     const city = 'Saint Louis';
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -59,7 +59,7 @@ document.getElementById('convert-currency').addEventListener('click', () => {
     const amount = document.getElementById('amount').value.trim();
     const from = document.getElementById('currency-from').value;
     const to = document.getElementById('currency-to').value;
-    const apiKey = 'd570a4f5152f33fb00a842d3526efe08'; // Your API Key
+    const apiKey = 'd570a4f5152f33fb00a842d3526efe08';
     const url = `http://apilayer.net/api/live?access_key=${apiKey}&currencies=${to}&source=${from}&format=1`;
 
     const resultDiv = document.getElementById('conversion-result');
